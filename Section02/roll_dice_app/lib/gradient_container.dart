@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:roll_dice_app/styled_text.dart';
 
-var startAlignment = Alignment.topLeft;
-var endAlignment = Alignment.bottomLeft;
+const Alignment startAlignment = Alignment.topLeft;
+const Alignment endAlignment = Alignment.bottomLeft;
 
 class LinearGradientContainer extends StatelessWidget {
   const LinearGradientContainer({super.key});
