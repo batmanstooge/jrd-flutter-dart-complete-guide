@@ -16,7 +16,7 @@ class LinearGradientContainer extends StatelessWidget {
           end: endAlignment,
         ),
       ),
-      child: Center(child: StyledText()),
+      child: Center(child: StyledText('Hello World!')),
     );
   }
 }
