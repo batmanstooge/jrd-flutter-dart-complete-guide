@@ -15,8 +15,8 @@ class QuizApp extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/images/quiz-logo.png',
-                height: 300,
                 width: 300,
+                color: const Color.fromARGB(50, 255, 255, 255),
               ),
               SizedBox(height: 20),
               Text(
