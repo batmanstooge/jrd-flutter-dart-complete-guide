@@ -24,13 +24,14 @@ class QuizApp extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 24),
               ),
               SizedBox(height: 20),
-              OutlinedButton(
+              OutlinedButton.icon(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.deepPurpleAccent,
                 ),
-                child: Text('Start Quiz'),
+                label: Text('Start Quiz'),
+                icon: Icon(Icons.arrow_right_alt),
               ),
             ],
           ),
