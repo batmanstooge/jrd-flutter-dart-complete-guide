@@ -3,11 +3,13 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
+  const Expenses({super.key});
+
   @override
-  _ExpensesState createState() => _ExpensesState();
+  ExpensesState createState() => ExpensesState();
 }
 
-class _ExpensesState extends State<Expenses> {
+class ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [
     Expense(
       title: 'Flutter Course',
