@@ -10,6 +10,16 @@ class Expenses extends StatefulWidget {
 }
 
 class ExpensesState extends State<Expenses> {
+  void _openAddExpenseModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => const SizedBox(
+        height: 200,
+        child: Center(child: Text('This is a modal bottom sheet')),
+      ),
+    );
+  }
+
   final List<Expense> _registeredExpenses = [
     Expense(
       title: 'Flutter Course',
@@ -29,7 +39,12 @@ class ExpensesState extends State<Expenses> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Expense Tracker'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+        actions: [
+          IconButton(
+            onPressed: _openAddExpenseModal,
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: Column(
         children: [
