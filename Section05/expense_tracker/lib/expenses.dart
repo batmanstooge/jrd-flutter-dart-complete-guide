@@ -1,6 +1,7 @@
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/widgets/new_expense.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -13,10 +14,7 @@ class ExpensesState extends State<Expenses> {
   void _openAddExpenseModal() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => const SizedBox(
-        height: 200,
-        child: Center(child: Text('This is a modal bottom sheet')),
-      ),
+      builder: (ctx) => const NewExpense(),
     );
   }
 
