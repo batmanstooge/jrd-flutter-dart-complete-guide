@@ -122,10 +122,28 @@ class _NewExpenseState extends State<NewExpense> {
               const SizedBox(width: 12),
               ElevatedButton(
                 onPressed: () {
-                  print('Title: ${_titleController.text}');
-                  print('Amount: ${_amountController.text}');
-                  print('Date: ${_selectedDate ?? 'Select Date'}');
-                  print('Category: ${_selectedCategory.name}');
+                  final title = _titleController.text.trim();
+                  final amount = _amountController.text.trim();
+                  final date = _selectedDate;
+                  if (title.isEmpty || amount.isEmpty || date == null) {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text('Missing Fields'),
+                        content: const Text(
+                          'Please enter a title, amount, and select a date.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(ctx).pop(),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+                  // Handle valid submission here
                 },
                 child: const Text('Save Expense'),
               ),
