@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/expense.dart';
 
+
+typedef AddExpenseCallback = void Function(Expense expense);
+
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  final AddExpenseCallback onAddExpense;
+  const NewExpense({super.key, required this.onAddExpense});
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -123,9 +127,9 @@ class _NewExpenseState extends State<NewExpense> {
               ElevatedButton(
                 onPressed: () {
                   final title = _titleController.text.trim();
-                  final amount = _amountController.text.trim();
+                  final amountStr = _amountController.text.trim();
                   final date = _selectedDate;
-                  if (title.isEmpty || amount.isEmpty || date == null) {
+                  if (title.isEmpty || amountStr.isEmpty || date == null) {
                     showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
@@ -143,7 +147,31 @@ class _NewExpenseState extends State<NewExpense> {
                     );
                     return;
                   }
-                  // Handle valid submission here
+                  final amount = double.tryParse(amountStr);
+                  if (amount == null || amount <= 0) {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text('Invalid Amount'),
+                        content: const Text('Please enter a valid positive amount.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(ctx).pop(),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+                  final newExpense = Expense(
+                    title: title,
+                    amount: amount,
+                    date: date,
+                    category: _selectedCategory,
+                  );
+                  widget.onAddExpense(newExpense);
+                  Navigator.of(context).pop();
                 },
                 child: const Text('Save Expense'),
               ),
