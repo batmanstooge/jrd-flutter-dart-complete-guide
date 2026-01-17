@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+import '../models/expense.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -13,6 +14,7 @@ class _NewExpenseState extends State<NewExpense> {
   DateTime? _selectedDate;
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  Category _selectedCategory = Category.leisure;
 
   @override
   void dispose() {
@@ -85,8 +87,32 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           const SizedBox(height: 24),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Expanded(
+                child: DropdownButtonFormField<Category>(
+                  initialValue: _selectedCategory,
+                  decoration: const InputDecoration(
+                    labelText: 'Category',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: Category.values
+                      .map(
+                        (cat) => DropdownMenuItem<Category>(
+                          value: cat,
+                          child: Text(cat.name.toUpperCase()),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (cat) {
+                    if (cat != null) {
+                      setState(() {
+                        _selectedCategory = cat;
+                      });
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(width: 12),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -99,6 +125,7 @@ class _NewExpenseState extends State<NewExpense> {
                   print('Title: ${_titleController.text}');
                   print('Amount: ${_amountController.text}');
                   print('Date: ${_selectedDate ?? 'Select Date'}');
+                  print('Category: ${_selectedCategory.name}');
                 },
                 child: const Text('Save Expense'),
               ),
