@@ -18,9 +18,25 @@ class ExpensesState extends State<Expenses> {
   }
 
   void _removeExpense(Expense expense) {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Expense deleted'),
+        duration: Duration(seconds: 3),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(expenseIndex, expense);
+            });
+          },
+        ),
+      ),
+    );
   }
 
   void _openAddExpenseModal() {
@@ -45,6 +61,23 @@ class ExpensesState extends State<Expenses> {
       category: Category.leisure,
     ),
   ];
+  Widget _buildExpensesContent() {
+    if (_registeredExpenses.isEmpty) {
+      return Center(
+        child: Text(
+          'No expenses to list. Add a new expense.',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
+        ),
+      );
+    } else {
+      return ExpensesList(
+        expenses: _registeredExpenses,
+        onDismiss: _removeExpense,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,12 +93,7 @@ class ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           Text('Expenses chart will be here'),
-          Expanded(
-            child: ExpensesList(
-              expenses: _registeredExpenses,
-              onDismiss: _removeExpense,
-            ),
-          ),
+          Expanded(child: _buildExpensesContent()),
         ],
       ),
     );
